@@ -1,40 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Caesar Cipher</title>
+		<meta charset="utf-8" />
+		<title>OTP Encryption Tool</title>
 		<link
 			rel="stylesheet"
 			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		/>
 		<script>
-			function toggleShiftField() {
+			function toggleKeyField() {
 				var mode = document.querySelector('input[name="mode"]:checked').value;
-				var shiftField = document.getElementById('shift-field');
-				shiftField.style.display = mode === 'encrypt' ? 'block' : 'none';
+				var keyField = document.getElementById('key-field');
+				if (mode === 'decrypt') {
+					keyField.style.display = 'block';
+				} else {
+					keyField.style.display = 'none';
+				}
 			}
 			document.addEventListener('DOMContentLoaded', function () {
-				toggleShiftField();
+				toggleKeyField();
 				var modeRadios = document.querySelectorAll('input[name="mode"]');
 				modeRadios.forEach(function (radio) {
-					radio.addEventListener('change', toggleShiftField);
+					radio.addEventListener('change', toggleKeyField);
 				});
 			});
 		</script>
 	</head>
 	<body>
 		<div class="container">
-			<h1 class="mt-5">Caesar Cipher</h1>
+			<h1 class="mt-5">OTP Encryption Tool</h1>
 			<form method="POST">
 				{{ form.hidden_tag() }}
 				<div class="form-group">
 					{{ form.text.label(class="form-label") }} {{
 					form.text(class="form-control") }}
-				</div>
-				<div class="form-group" id="shift-field">
-					{{ form.shift.label(class="form-label") }} {{
-					form.shift(class="form-control") }}
 				</div>
 				<div class="form-group">
 					{{ form.mode.label(class="form-label d-block") }} {% for subfield in
@@ -45,13 +44,22 @@
 					</div>
 					{% endfor %}
 				</div>
+				<div class="form-group" id="key-field">
+					{{ form.key.label(class="form-label") }} {{
+					form.key(class="form-control") }}
+				</div>
 				<div class="form-group">{{ form.submit(class="btn btn-primary") }}</div>
 				{% if result %}
 				<div class="mt-4">
 					<h3>Result:</h3>
 					<pre>{{ result }}</pre>
 				</div>
-				{% endif %}
+				{% if key %}
+				<div class="mt-4">
+					<h3>OTP Key:</h3>
+					<pre>{{ key }}</pre>
+				</div>
+				{% endif %} {% endif %}
 			</form>
 		</div>
 	</body>
