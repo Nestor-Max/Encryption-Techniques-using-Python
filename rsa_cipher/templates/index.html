@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Home</title>
+	</head>
+	<body>
+		<h1>RSA Cipher</h1>
+
+		<form method="POST">
+			{{form.hidden_tag()}}
+			<div>
+				{{form.text.label}}<br />
+				{{form.text(rows=10, cols=50)}}
+			</div>
+			<div>
+				{{form.mode.label}}<br />
+				{% for subfield in form.mode %}
+				<tr>
+					<td>{{ subfield }}</td>
+					<td>{{ subfield.label }}</td>
+				</tr>
+				{% endfor %}
+			</div>
+			{{form.submit()}}
+		</form>
+
+		{% if public_key %}
+		<h2>Public Key:</h2>
+		<p>{{ public_key }}</p>
+		{% endif %} {% if result %}
+		<h2>Result:</h2>
+		<p>{{ result }}</p>
+		{% endif %}
+	</body>
+</html>
